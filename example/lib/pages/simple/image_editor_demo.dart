@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:example/common/image_picker/image_picker.dart';
 import 'package:example/common/utils/crop_editor_helper.dart';
+import 'package:example/common/utils/crop_editor_helper_canvas.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:ff_annotation_route_core/ff_annotation_route_core.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +35,11 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
         title: const Text('ImageEditor'),
       ),
       body: ExtendedImage.asset(
-        'assets/image.jpg',
+        // 'assets/image.jpg',
+        // 'assets/sample_crop_image.jpg',
+        // 'assets/solar_system.jpg',
+        'assets/bg_111.jpg',
+        //     "https://firebasestorage.googleapis.com/v0/b/timwork-834b6.appspot.com/o/test%2F%E1%84%90%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%80%E1%85%A5%E1%86%AB%E1%84%89%E1%85%A5%E1%86%AF%20%E1%84%8C%E1%85%B5%E1%84%92%E1%85%A11%E1%84%8E%E1%85%B3%E1%86%BC%20%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%E1%84%91%E1%85%A7%E1%86%BC%E1%84%86%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9.png?alt=media&token=ffd14738-dda8-4840-9841-3ab2a2906a85",
         fit: BoxFit.contain,
         mode: ExtendedImageMode.editor,
         enableLoadState: true,
@@ -64,10 +69,15 @@ class _SimpleImageEditorState extends State<SimpleImageEditor> {
     if (_cropping) {
       return;
     }
-    final Uint8List fileData = Uint8List.fromList(kIsWeb
-        ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
-        : (await cropImageDataWithNativeLibrary(
-            state: editorKey.currentState!))!);
+    // final Uint8List fileData = Uint8List.fromList(kIsWeb
+    //     ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
+    //     : (await cropImageDataWithNativeLibrary(
+    //         state: editorKey.currentState!))!);
+
+    final Uint8List fileData = Uint8List.fromList(
+        ( await cropImageDataWithHtmlCanvas(state: editorKey.currentState!))!);
+
+
     final String? fileFath =
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 

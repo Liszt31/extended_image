@@ -12,4 +12,5 @@ dependencies:
   flutter:
     sdk: flutter
   meta: ^1.1.8
+  mime: ^1.0.1
 
