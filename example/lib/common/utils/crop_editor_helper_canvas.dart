@@ -31,10 +31,12 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
 
   ///If cropping is needed create a canvas of the size of the cropped image
   ///else create a canvas of the size of the original image
-  if(editAction.needCrop)
-    myCanvas = html.CanvasElement(width: cropRect!.width.toInt(), height: cropRect.height.toInt());
+  if (editAction.needCrop)
+    myCanvas = html.CanvasElement(
+        width: cropRect!.width.toInt(), height: cropRect.height.toInt());
   else
-    myCanvas = html.CanvasElement(width: myImageElement.width, height: myImageElement.height);
+    myCanvas = html.CanvasElement(
+        width: myImageElement.width, height: myImageElement.height);
 
   ctx = myCanvas.context2D;
 
@@ -45,7 +47,7 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
   ///and Flip.vertical and Flip.horizontal will have to be swapped
   bool invert = false;
   if (editAction.hasRotateAngle) {
-    if(editAction.rotateAngle == 90 || editAction.rotateAngle == 270){
+    if (editAction.rotateAngle == 90 || editAction.rotateAngle == 270) {
       int tmp = myCanvas.width!;
       myCanvas.width = myCanvas.height;
       myCanvas.height = tmp;
@@ -55,10 +57,10 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
       invert = true;
     }
 
-    ctx.translate(myCanvas.width!/2, myCanvas.height!/2);
+    ctx.translate(myCanvas.width! / 2, myCanvas.height! / 2);
     ctx.rotate(editAction.rotateAngle * pi / 180);
-  }else{
-    ctx.translate(myCanvas.width!/2, myCanvas.height!/2);
+  } else {
+    ctx.translate(myCanvas.width! / 2, myCanvas.height! / 2);
   }
 
   ///By default extended_image associates
@@ -69,12 +71,12 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
     if (editAction.flipY && editAction.flipX) {
       mode = Flip.both;
     } else if (editAction.flipY) {
-      if(invert)
+      if (invert)
         mode = Flip.vertical;
       else
         mode = Flip.horizontal;
     } else if (editAction.flipX) {
-      if(invert)
+      if (invert)
         mode = Flip.horizontal;
       else
         mode = Flip.vertical;
@@ -84,15 +86,15 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
     ///in ctx.drawImageScaledFromSource
     ///so applying ctx.scale(-1, 1) is like saying -drawWidth which means
     ///flip horizontal
-    switch(mode){
+    switch (mode) {
       case Flip.horizontal:
-        if(invert)
+        if (invert)
           ctx.scale(1, -1);
         else
           ctx.scale(-1, 1);
         break;
       case Flip.vertical:
-        if(invert)
+        if (invert)
           ctx.scale(-1, 1);
         else
           ctx.scale(1, -1);
@@ -109,8 +111,8 @@ Future<Uint8List?> cropImageDataWithHtmlCanvas(
     cropRect.top,
     cropRect.width,
     cropRect.height,
-    -drawWidth/2,
-    -drawHeight/2,
+    -drawWidth / 2,
+    -drawHeight / 2,
     drawWidth,
     drawHeight,
   );
